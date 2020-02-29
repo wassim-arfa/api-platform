@@ -21,11 +21,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * },
  *
  *     "put"={
- *     "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *     "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user or is_granted('ROLE_ADMIN')",
  *     "normalization_context"={"groups"={"user:get"}},
  *     "denormalization_context"={"groups"={"user:put"}}
  * },
- *     "delete"={"access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user"},
+ *     "delete"={"access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user or is_granted('ROLE_ADMIN')"},
  *
  * }
  * )
