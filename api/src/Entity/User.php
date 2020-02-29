@@ -5,9 +5,30 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *     "post"={"denormalization_context"={"groups"={"user:post"}}},
+ *     "get"={"normalization_context"={"groups"={"user:get"}}}
+ *
+ * },
+ *     itemOperations={
+ *     "get"={
+ *     "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user  or is_granted('ROLE_ADMIN')",
+ *     "normalization_context"={"groups"={"user:get"}}
+ * },
+ *
+ *     "put"={
+ *     "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *     "normalization_context"={"groups"={"user:get"}},
+ *     "denormalization_context"={"groups"={"user:put"}}
+ * },
+ *     "delete"={"access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user"},
+ *
+ * }
+ * )
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -29,6 +50,7 @@ class User implements UserInterface
     }
 
     /**
+     * @Groups({"user:get"})
      * @ORM\Id
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -36,27 +58,32 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Groups({"user:post","user:get"})
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
 
     /**
+     * @Groups({"user:post","user:get","user:put"})
      * @ORM\Column(type="binary_roles", nullable=false)
      */
     private $roles = [];
 
     /**
+     * @Groups({"user:post"})
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
+     * @Groups({"user:get"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Groups({"user:get"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
