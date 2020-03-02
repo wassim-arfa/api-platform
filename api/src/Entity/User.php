@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use App\Controller\ResetPasswordAction;
 
 /**
  * @ApiResource(
@@ -28,6 +30,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * },
  *     "delete"={"access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user or is_granted('ROLE_ADMIN')"},
  *
+ *     "put-password"={
+ *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *          "method"="PUT",
+ *          "path"="/users/{id}/reset-password",
+ *          "controller"= ResetPasswordAction::class,
+ *          "denormalization_context"={"groups"={"user:reset:password"}}
+ *     }
  * }
  * )
  * @ORM\Table(name="users")
@@ -74,11 +83,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:post"})
-     * @Assert\NotBlank()
-     * @Assert\Regex(
-     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
-     * )
+
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -188,6 +193,94 @@ class User implements UserInterface
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
+
+                    /**************************
+                     * PASSWORD RESET SECTION *
+                     **************************/
+
+
+    /**
+     * @ORM\Column(name="password_change_date", type="integer", nullable=true)
+     */
+    private $passwordChangeDate;
+
+
+    /**
+     * @Groups({"user:reset:password"})
+     * @Assert\NotBlank()
+     * @SecurityAssert\UserPassword( message = "Wrong value for your current password" )
+     */
+    private $oldPassword;
+
+    /**
+     * @Groups({"user:reset:password"})
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+     *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
+     * )
+     */
+    private $newPassword;
+
+    /**
+     * @Groups({"user:reset:password"})
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *     "this.getNewPassword() === this.getNewRetypedPassword()",
+     *      message="passwords does not match")
+     */
+    private $newRetypedPassword;
+
+
+    public function getPasswordChangeDate()
+    {
+        return $this->passwordChangeDate;
+    }
+
+    public function setPasswordChangeDate($passwordChangeDate)
+    {
+        $this->passwordChangeDate = $passwordChangeDate;
+
+        return $this;
+    }
+
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
+
+        return $this;
+    }
+
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
+
+    public function getNewRetypedPassword()
+    {
+        return $this->newRetypedPassword;
+    }
+
+    public function setNewRetypedPassword($newRetypedPassword)
+    {
+        $this->newRetypedPassword = $newRetypedPassword;
 
         return $this;
     }
