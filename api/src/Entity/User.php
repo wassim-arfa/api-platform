@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -59,6 +60,8 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:post","user:get"})
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=180)
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
@@ -71,6 +74,11 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:post"})
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+     *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
+     * )
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
