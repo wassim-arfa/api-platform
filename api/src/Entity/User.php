@@ -83,7 +83,11 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:post"})
-
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+     *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
+     * )
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -209,17 +213,9 @@ class User implements UserInterface
      */
     private $passwordChangeDate;
 
-
     /**
      * @Groups({"user:reset:password"})
-     * @Assert\NotBlank()
-     * @SecurityAssert\UserPassword( message = "Wrong value for your current password" )
-     */
-    private $oldPassword;
-
-    /**
-     * @Groups({"user:reset:password"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
      *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
@@ -229,7 +225,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:reset:password"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Expression(
      *     "this.getNewPassword() === this.getNewRetypedPassword()",
      *      message="passwords does not match")
@@ -245,18 +241,6 @@ class User implements UserInterface
     public function setPasswordChangeDate($passwordChangeDate)
     {
         $this->passwordChangeDate = $passwordChangeDate;
-
-        return $this;
-    }
-
-    public function getOldPassword()
-    {
-        return $this->oldPassword;
-    }
-
-    public function setOldPassword($oldPassword)
-    {
-        $this->oldPassword = $oldPassword;
 
         return $this;
     }
