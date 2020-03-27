@@ -268,4 +268,155 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+
+
+                    /**************************
+                     * ADD NEW FIELDS TO USER *
+                     **************************/
+
+
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=180)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fname;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=180)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lname;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @Assert\NotBlank()
+     * @Assert\Email( message = "The email '{{ value }}' is not a valid email." )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @Assert\Regex(
+     *     pattern="/^[1-9]\d{7}$/",
+     *     message="Mobile number must be 8 digits"
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mobile;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @Assert\Regex(
+     *     pattern="/^[1-9]\d{7}$/",
+     *     message="Landline number must be 8 digits"
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $landline;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @Groups({"user:post","user:get","user:put"})
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $bio;
+
+
+
+    public function getFname(): ?string
+    {
+        return $this->fname;
+    }
+
+    public function setFname(string $fname): self
+    {
+        $this->fname = $fname;
+
+        return $this;
+    }
+
+    public function getLname(): ?string
+    {
+        return $this->lname;
+    }
+
+    public function setLname(string $lname): self
+    {
+        $this->lname = $lname;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getMobile(): ?string
+    {
+        return $this->mobile;
+    }
+
+    public function setMobile(?string $mobile): self
+    {
+        $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    public function getLandline(): ?string
+    {
+        return $this->landline;
+    }
+
+    public function setLandline(?string $landline): self
+    {
+        $this->landline = $landline;
+
+        return $this;
+    }
 }
