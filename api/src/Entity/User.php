@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use App\Controller\ResetPasswordAction;
+use App\Security\TokenGenerator;
 
 /**
  * @ApiResource(
@@ -46,7 +47,6 @@ use App\Controller\ResetPasswordAction;
 class User implements UserInterface
 {
 
-    
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -56,6 +56,7 @@ class User implements UserInterface
         $this->setUpdatedAt(new \DateTime('now'));    
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTime('now'));
+            $this->setConfirmationToken(TokenGenerator::getRandomSecureToken());
         }
     }
 
@@ -419,4 +420,51 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+
+
+                    /***********************************
+                     * ADD CONFIRMATION FIELDS TO USER *
+                     ***********************************/
+
+
+
+
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    private $enabled=false;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $confirmationToken;
+
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): self
+    {
+        $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
 }
