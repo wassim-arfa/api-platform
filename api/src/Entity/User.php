@@ -56,7 +56,6 @@ class User implements UserInterface
         $this->setUpdatedAt(new \DateTime('now'));    
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTime('now'));
-            $this->setConfirmationToken(TokenGenerator::getRandomSecureToken());
         }
     }
 

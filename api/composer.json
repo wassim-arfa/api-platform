@@ -13,6 +13,7 @@
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.4.*",
         "symfony/mercure-bundle": "^0.2",
+        "symfony/swiftmailer-bundle": "^3.4",
         "symfony/yaml": "4.4.*"
     },
     "require-dev": {
