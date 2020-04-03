@@ -16,6 +16,8 @@ import 'font-awesome/css/font-awesome.css';
 import * as serviceWorker from './serviceWorker';
 // Import your reducers and routes here
 import Welcome from './Welcome';
+import user from './reducers/user/';
+import userRoutes from './routes/user';
 
 const history = createBrowserHistory();
 const store = createStore(
@@ -23,6 +25,7 @@ const store = createStore(
     router: connectRouter(history),
     form,
     /* Add your reducers here */
+    user,
   }),
   applyMiddleware(routerMiddleware(history), thunk)
 );
@@ -33,6 +36,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/" component={Welcome} strict={true} exact={true}/>
         {/* Add your routes here */}
+        { userRoutes }
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     </ConnectedRouter>

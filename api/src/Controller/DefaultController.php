@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="default_index")
+     * @Route("/home", name="default_index")
      */
     public function index()
     {
