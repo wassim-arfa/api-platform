@@ -14,6 +14,10 @@ class Create extends Component {
     reset: PropTypes.func.isRequired
   };
 
+  componentWillMount() {
+    localStorage.getItem('token') && window.location.replace('/')
+   }
+   
   componentWillUnmount() {
     this.props.reset();
   }

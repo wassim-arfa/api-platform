@@ -7,7 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     collectionOperations={
- *     "post"={"path"="/users/confirm"}
+ *     "post"={"path"="/users/confirm"},
+ *     "get"={}
  * },
  *     itemOperations={}
  * )
