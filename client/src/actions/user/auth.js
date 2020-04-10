@@ -20,7 +20,7 @@ export function login(values) {
         axios.post(`${SERVER_URL}/auth`,values)
         .then((response) => {console.log(response.data)
              localStorage.setItem('token', response.data.token)
-             window.location.href =`../`;
+             window.location.href =`../dashboard`;
              dispatch(loading(false));
              dispatch(success(response));
             })

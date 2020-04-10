@@ -23,7 +23,7 @@ class Login  extends Component {
       }
 
       componentWillMount() {
-       localStorage.getItem('token') && window.location.replace('/')
+       localStorage.getItem('token') && window.location.replace('/dashboard')
       }
 
       componentWillUnmount() {
