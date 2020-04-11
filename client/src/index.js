@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { reducer as form } from 'redux-form';
@@ -27,7 +28,9 @@ const store = createStore(
     /* Add your reducers here */
     user,
   }),
-  applyMiddleware(routerMiddleware(history), thunk)
+  composeWithDevTools(
+    applyMiddleware(routerMiddleware(history), thunk)
+  )
 );
 
 ReactDOM.render(
