@@ -91,7 +91,7 @@ services:
     depends_on:
       - dev-tls
     volumes:
-      - dev-certs:/certs:ro
+      - dev-certs:/certs:ro,nocopy
     ports:
       - target: 443
         published: 1337
@@ -104,6 +104,7 @@ services:
       cache_from:
         - ${CLIENT_IMAGE:-quay.io/api-platform/client}
     image: ${CLIENT_IMAGE:-quay.io/api-platform/client}
+    tty: true # https://github.com/facebook/create-react-app/issues/8688
     environment:
       - API_PLATFORM_CLIENT_GENERATOR_ENTRYPOINT=http://api
       - API_PLATFORM_CLIENT_GENERATOR_OUTPUT=src
@@ -111,7 +112,7 @@ services:
       - dev-tls
     volumes:
       - ./client:/usr/src/client:rw,cached
-      - dev-certs:/usr/src/client/node_modules/webpack-dev-server/ssl:rw
+      - dev-certs:/usr/src/client/node_modules/webpack-dev-server/ssl:ro,nocopy
     ports:
       - target: 3000
         published: 443
@@ -124,11 +125,12 @@ services:
       cache_from:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
+    tty: true # https://github.com/facebook/create-react-app/issues/8688
     depends_on:
       - dev-tls
     volumes:
       - ./admin:/usr/src/admin:rw,cached
-      - dev-certs:/usr/src/admin/node_modules/webpack-dev-server/ssl:rw
+      - dev-certs:/usr/src/admin/node_modules/webpack-dev-server/ssl:ro,nocopy
     ports:
       - target: 3000
         published: 444
@@ -146,4 +148,4 @@ services:
 
 volumes:
   db-data: {}
-  dev-certs: {}
+  dev-certs: {} 
