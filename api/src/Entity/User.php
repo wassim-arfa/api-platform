@@ -12,7 +12,7 @@ use App\Controller\ResetPasswordAction;
 use App\Security\TokenGenerator;
 
 /**
- * @ApiResource(
+ * @ApiResource(attributes={"validation_groups"={"user:get", "user:post", "user:put"}},
  *     collectionOperations={
  *     "post"={"denormalization_context"={"groups"={"user:post"}}},
  *     "get"={"normalization_context"={"groups"={"user:get"}}}
@@ -215,7 +215,13 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:reset:password"})
-     * @Assert\NotBlank(groups={"user:post"})
+     * @SecurityAssert\UserPassword( message = "Wrong value for your current password" )
+     */
+    private $oldPassword;
+
+    /**
+     * @Groups({"user:reset:password"})
+     * @Assert\NotBlank(groups={"user:reset:password"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
      *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
@@ -225,7 +231,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:reset:password"})
-     * @Assert\NotBlank(groups={"user:post"})
+     * @Assert\NotBlank(groups={"user:reset:password"})
      * @Assert\Expression(
      *     "this.getNewPassword() === this.getNewRetypedPassword()",
      *      message="passwords does not match")
@@ -265,6 +271,18 @@ class User implements UserInterface
     public function setNewRetypedPassword($newRetypedPassword)
     {
         $this->newRetypedPassword = $newRetypedPassword;
+
+        return $this;
+    }
+
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
 
         return $this;
     }
