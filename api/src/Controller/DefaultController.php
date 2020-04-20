@@ -33,4 +33,14 @@ class DefaultController extends AbstractController
 
         return $this->redirectToRoute('default_index');
     }
+
+    /**
+     * @Route("/forgot-password/{token}", name="forgot_password")
+     */
+    public function recoverPassword(
+        string $token
+    ) {
+
+        return $this->redirect('https://localhost/login');
+    }
 }

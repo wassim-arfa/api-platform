@@ -31,4 +31,16 @@ class Mailer extends AbstractController
 
         $this->mailer->send($message);
     }
+
+    public function sendRecoverPasswordEmail(User $user)
+    {
+        $body = $this->render('email/recover-password.html.twig', ['user' => $user]);
+
+        $message = (new Swift_Message('Recover your account!'))
+            ->setFrom('api-platform@api.com')
+            ->setTo($user->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
 }
