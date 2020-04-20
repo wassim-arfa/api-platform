@@ -44,7 +44,7 @@ class UserEmailSubscriber implements EventSubscriberInterface
         /** @var UserConfirmation $confirmationToken */
         $email = $event->getControllerResult()->email;
 
-        var_dump($email);
+/*         var_dump($email); */
         $this->UserRecoverService->recoverPassword($email);
 
         $event->setResponse(new JsonResponse(null, Response::HTTP_OK));

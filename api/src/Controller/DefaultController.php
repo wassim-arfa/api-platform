@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Security\UserConfirmationService;
+use App\Security\UserTokenPassword;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,9 +39,10 @@ class DefaultController extends AbstractController
      * @Route("/forgot-password/{token}", name="forgot_password")
      */
     public function recoverPassword(
-        string $token
+        string $token,
+        UserTokenPassword $UserTokenPassword
     ) {
-
+        $UserTokenPassword->setTokenAsPassword($token);
         return $this->redirect('https://localhost/login');
     }
 }
