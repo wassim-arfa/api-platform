@@ -8,3 +8,7 @@ authentication_token:
 gesdinet_jwt_refresh_token:
     path:     /refresh-token
     defaults: { _controller: gesdinet.jwtrefreshtoken:refresh }
+
+coop_tilleuls_forgot_password:
+    resource: '@CoopTilleulsForgotPasswordBundle/Resources/config/routing.xml'
+    prefix:   '/forgot_password'
