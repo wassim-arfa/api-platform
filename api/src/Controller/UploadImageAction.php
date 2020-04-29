@@ -9,6 +9,7 @@ use App\Form\ImageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UploadImageAction
 {
@@ -24,16 +25,22 @@ class UploadImageAction
      * @var ValidatorInterface
      */
     private $validator;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->formFactory = $formFactory;
         $this->entityManager = $entityManager;
         $this->validator = $validator;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function __invoke(Request $request)
@@ -44,8 +51,9 @@ class UploadImageAction
         $form = $this->formFactory->create(ImageType::class, $image);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->tokenStorage->getToken()->getUser()) {
             // Persist the new Image entity
+            $image->setOwner($this->tokenStorage->getToken()->getUser());
             $this->entityManager->persist($image);
             $this->entityManager->flush();
 

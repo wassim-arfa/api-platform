@@ -18,12 +18,13 @@ use App\Controller\UploadImageAction;
  *         "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
  *     },
  *     collectionOperations={
- *         "get",
+ *         "get"={"normalization_context"={"groups"={"image:get"}}},
  *         "post"={
  *             "method"="POST",
  *             "path"="/images",
  *             "controller"=UploadImageAction::class,
- *             "defaults"={"_api_receive"=false}
+ *             "defaults"={"_api_receive"=false},
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *         }
  *     },
  *     itemOperations={
@@ -38,6 +39,7 @@ class Image
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"image:get"})
      */
     private $id;
 
@@ -48,10 +50,17 @@ class Image
     private $file;
 
     /**
+     * @Groups({"image:get"})
      * @ORM\Column(nullable=true)
-     * @Groups({"user:get"})
      */
     private $url;
+
+    /**
+     * @Groups({"image:get"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="images")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
 
     public function getId()
     {
@@ -81,5 +90,17 @@ class Image
     public function __toString()
     {
         return $this->id . ':' . $this->url;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }
