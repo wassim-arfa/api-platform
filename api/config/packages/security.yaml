@@ -16,7 +16,7 @@ security:
             security: false
         main:
             anonymous: true
-            stateless: true
+            stateless: false
             provider: app_user_provider
             json_login:
                 check_path: /auth
@@ -28,6 +28,18 @@ security:
                 authenticators:
                     - App\Security\TokenAuthenticator
             user_checker: App\Security\UserEnabledChecker
+
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: my.oauth_aware.user_provider.service
+
         refresh:
             pattern:  ^/refresh-token
             stateless: true

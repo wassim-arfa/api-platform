@@ -32,6 +32,16 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
 
+    # HWIOAuthBundle : UserProvider
+    my.oauth_aware.user_provider.service:
+        class: App\Security\MyEntityUserProvider
+        arguments:
+            - '@doctrine'
+            - 'App\Entity\User'
+            - {facebook: facebookID, google: googleID} 
+            # facebook : $response->getResourceOwner()->getName();
+            # facebookID : $this->properties[$resourceOwnerName]
+
     App\Doctrine\CurrentUserExtension:
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection }

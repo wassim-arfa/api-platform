@@ -12,3 +12,22 @@ gesdinet_jwt_refresh_token:
 coop_tilleuls_forgot_password:
     resource: '@CoopTilleulsForgotPasswordBundle/Resources/config/routing.xml'
     prefix:   '/forgot_password'
+
+# HWIOAuthBundle
+facebook_login:
+    path: /login/check-facebook
+
+google_login:
+    path: /login/check-google
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
