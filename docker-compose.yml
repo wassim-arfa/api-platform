@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 x-cache-from:
   - &api-cache-from
@@ -70,7 +70,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    ports :
+    ports:
       - "5050:80"
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin
@@ -104,7 +104,6 @@ services:
       cache_from:
         - ${CLIENT_IMAGE:-quay.io/api-platform/client}
     image: ${CLIENT_IMAGE:-quay.io/api-platform/client}
-    tty: true # https://github.com/facebook/create-react-app/issues/8688
     environment:
       - API_PLATFORM_CLIENT_GENERATOR_ENTRYPOINT=http://api
       - API_PLATFORM_CLIENT_GENERATOR_OUTPUT=src
@@ -148,4 +147,4 @@ services:
 
 volumes:
   db-data: {}
-  dev-certs: {} 
+  dev-certs: {}
