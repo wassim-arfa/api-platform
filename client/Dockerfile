@@ -24,6 +24,7 @@ COPY . ./
 VOLUME /usr/src/client/node_modules
 
 ENV HTTPS true
+# ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
 CMD ["yarn", "dev"]
 
