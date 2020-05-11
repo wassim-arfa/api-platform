@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 x-cache-from:
   - &api-cache-from
@@ -70,7 +70,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    ports :
+    ports:
       - "5050:80"
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin
@@ -91,7 +91,7 @@ services:
     depends_on:
       - dev-tls
     volumes:
-      - dev-certs:/certs:ro,nocopy
+      - dev-certs:/certs:ro
     ports:
       - target: 443
         published: 1337
@@ -112,7 +112,7 @@ services:
       - dev-tls
     volumes:
       - ./client:/usr/src/client:rw,cached
-      - dev-certs:/usr/src/client/node_modules/webpack-dev-server/ssl:ro,nocopy
+      - dev-certs:/usr/src/client/node_modules/webpack-dev-server/ssl:rw
     ports:
       - target: 3000
         published: 443
@@ -130,7 +130,7 @@ services:
       - dev-tls
     volumes:
       - ./admin:/usr/src/admin:rw,cached
-      - dev-certs:/usr/src/admin/node_modules/webpack-dev-server/ssl:ro,nocopy
+      - dev-certs:/usr/src/admin/node_modules/webpack-dev-server/ssl:rw
     ports:
       - target: 3000
         published: 444
@@ -148,4 +148,4 @@ services:
 
 volumes:
   db-data: {}
-  dev-certs: {} 
+  dev-certs: {}
