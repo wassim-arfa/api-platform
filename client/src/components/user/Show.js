@@ -72,7 +72,7 @@ class Show extends Component {
                 <th scope="row">username</th>
                 <td>{item['username']}</td>
               </tr>
-{/*               <tr>
+              <tr>
                 <th scope="row">roles</th>
                 <td>{item['roles']}</td>
               </tr>
@@ -83,7 +83,7 @@ class Show extends Component {
               <tr>
                 <th scope="row">salt</th>
                 <td>{item['salt']}</td>
-              </tr> */}
+              </tr>
               <tr>
                 <th scope="row">createdAt</th>
                 <td>{item['createdAt']}</td>
@@ -92,7 +92,7 @@ class Show extends Component {
                 <th scope="row">updatedAt</th>
                 <td>{item['updatedAt']}</td>
               </tr>
-{/*               <tr>
+              <tr>
                 <th scope="row">passwordChangeDate</th>
                 <td>{item['passwordChangeDate']}</td>
               </tr>
@@ -103,7 +103,11 @@ class Show extends Component {
               <tr>
                 <th scope="row">newRetypedPassword</th>
                 <td>{item['newRetypedPassword']}</td>
-              </tr> */}
+              </tr>
+              <tr>
+                <th scope="row">oldPassword</th>
+                <td>{item['oldPassword']}</td>
+              </tr>
               <tr>
                 <th scope="row">fname</th>
                 <td>{item['fname']}</td>
@@ -136,10 +140,10 @@ class Show extends Component {
                 <th scope="row">enabled</th>
                 <td>{item['enabled']}</td>
               </tr>
-{/*               <tr>
+              <tr>
                 <th scope="row">confirmationToken</th>
                 <td>{item['confirmationToken']}</td>
-              </tr> */}
+              </tr>
             </tbody>
           </table>
         )}
