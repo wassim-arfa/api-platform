@@ -18,9 +18,9 @@ export function fetch(id, options = {}) {
   )
     options.headers.set('Content-Type', MIME_TYPE);
 
-    if(localStorage.getItem('token')) 
+  if (localStorage.getItem('token'))
     options.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    
+
   return global.fetch(new URL(id, ENTRYPOINT), options).then(response => {
     if (response.ok) return response;
 
@@ -36,7 +36,7 @@ export function fetch(id, options = {}) {
         json.violations.forEach(violation =>
           errors[violation.propertyPath]
             ? (errors[violation.propertyPath] +=
-                '\n' + errors[violation.propertyPath])
+              '\n' + errors[violation.propertyPath])
             : (errors[violation.propertyPath] = violation.message)
         );
 

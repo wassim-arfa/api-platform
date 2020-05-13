@@ -70,6 +70,7 @@ class List extends Component {
               <th>passwordChangeDate</th>
               <th>newPassword</th>
               <th>newRetypedPassword</th>
+              <th>oldPassword</th>
               <th>fname</th>
               <th>lname</th>
               <th>email</th>
@@ -100,6 +101,7 @@ class List extends Component {
                   <td>{item['passwordChangeDate']}</td>
                   <td>{item['newPassword']}</td>
                   <td>{item['newRetypedPassword']}</td>
+                  <td>{item['oldPassword']}</td>
                   <td>{item['fname']}</td>
                   <td>{item['lname']}</td>
                   <td>{item['email']}</td>
