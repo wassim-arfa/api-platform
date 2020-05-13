@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Controller\UploadImageAction;
+use App\Controller\DeleteImageAction;
 
 /**
  * @ORM\Entity()
@@ -29,7 +30,12 @@ use App\Controller\UploadImageAction;
  *     },
  *     itemOperations={
  *         "get",
- *         "delete"
+ *         "safe-delete"={
+ *             "method"="PUT",
+ *             "path"="/delete-image/{id}",
+ *             "controller"=DeleteImageAction::class,
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *         }
  *     }
  * )
  */
@@ -45,7 +51,7 @@ class Image
 
     /**
      * @Vich\UploadableField(mapping="images", fileNameProperty="url")
-     * @Assert\NotNull()
+     * @Assert\NotNull(groups={"post"})
      */
     private $file;
 
@@ -61,6 +67,12 @@ class Image
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
+
+    /**
+     * @Groups({"image:get"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     public function getId()
     {
@@ -100,6 +112,18 @@ class Image
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }

@@ -37,6 +37,7 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->andWhere(sprintf('%s.owner = :current_user', $rootAlias));
+        $queryBuilder->andWhere(sprintf('%s.deletedAt IS NULL', $rootAlias));
         $queryBuilder->setParameter('current_user', $user->getId());
     }
 }
