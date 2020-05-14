@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use App\Controller\ResetPasswordAction;
 use App\Security\TokenGenerator;
+use App\Controller\SetPictureAction;
 
 /**
  * @ApiResource(attributes={"validation_groups"={"user:get", "user:post", "user:put"}},
@@ -39,6 +40,13 @@ use App\Security\TokenGenerator;
  *          "path"="/users/{id}/reset-password",
  *          "controller"= ResetPasswordAction::class,
  *          "denormalization_context"={"groups"={"user:reset:password"}}
+ *     },
+ *    "set-picture"={
+ *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *          "method"="PUT",
+ *          "path"="/users/{id}/set-picture",
+ *          "controller"= SetPictureAction::class,
+ *          "denormalization_context"={"groups"={"user:set:picture"}}
  *     }
  * }
  * )
@@ -476,6 +484,21 @@ class User implements UserInterface
      */
     private $images;
 
+    /**
+     * @Groups({"user:get","user:set:picture"})
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $picture;
+    /**
+     * @Groups({"user:set:picture"})
+     * @Assert\NotBlank(groups={"user:set:picture"})
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Picture Id needs to be an Integer"
+     * )
+     */
+    private $pic;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -549,4 +572,36 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPicture(): ?int
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?int $picture): self
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of pic
+     */ 
+    public function getPic()
+    {
+        return $this->pic;
+    }
+
+    /**
+     * Set the value of pic
+     *
+     * @return  self
+     */ 
+    public function setPic($pic)
+    {
+        $this->pic = $pic;
+
+        return $this;
+    }
 }
