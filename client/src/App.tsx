@@ -1,16 +1,13 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch, Router } from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory";
 
 import "./App.css";
 
 // routes
 import Welcome from "./Welcome";
-import { store } from "./store";
 import Login from "./pages/login";
-
-const history = createBrowserHistory();
+import { history, store } from "./store";
 
 function App() {
     return (

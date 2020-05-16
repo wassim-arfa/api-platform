@@ -2,6 +2,7 @@ import { createStore, EasyPeasyConfig } from "easy-peasy";
 
 import { storeModel, StoreModel } from "./store.model";
 import { config } from "./storeConfig";
+import { createReduxHistory } from "./reduxHistoryContext";
 
 const store = createStore<StoreModel, EasyPeasyConfig>(storeModel, config);
 
@@ -15,5 +16,5 @@ if (process.env.NODE_ENV === "development") {
     }
 }
 
-// export const history = createReduxHistory(store);
+export const history = createReduxHistory(store);
 export default store;

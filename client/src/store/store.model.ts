@@ -1,14 +1,15 @@
 import { reducer } from "easy-peasy";
 
 import { User } from "./../interfaces/user";
+import { routerReducer } from "./reduxHistoryContext";
 
 export interface StoreModel {
-    //router: any
+    router: any;
     user: User;
 }
 
 export const storeModel: StoreModel = {
-    //router: ,
+    router: reducer(routerReducer),
     user: {
         email: "",
         fname: "",
