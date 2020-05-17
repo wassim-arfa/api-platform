@@ -96,7 +96,7 @@ const Register = () => {
                         message: "Please confirm your password!",
                     },
                     ({ getFieldValue }) => ({
-                        validator(value) {
+                        validator(_, value) {
                             if (!value || getFieldValue("password") === value) {
                                 return Promise.resolve();
                             }
