@@ -19,7 +19,8 @@ use App\Controller\DeleteImageAction;
  *         "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
  *     },
  *     collectionOperations={
- *         "get"={"normalization_context"={"groups"={"image:get"}}},
+ *         "get"={"normalization_context"={"groups"={"image:get"}},
+ *                "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"},
  *         "post"={
  *             "method"="POST",
  *             "path"="/images",
@@ -29,8 +30,11 @@ use App\Controller\DeleteImageAction;
  *         }
  *     },
  *     itemOperations={
- *         "get",
- *         "safe-delete"={
+ *           "get"={
+ *           "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *           "normalization_context"={"groups"={"image:get"}}
+ * },
+ *           "safe-delete"={
  *             "method"="PUT",
  *             "path"="/delete-image/{id}",
  *             "controller"=DeleteImageAction::class,

@@ -49,7 +49,7 @@ class SetPictureAction
         if(is_integer($data->getPic()) && $image)
         {
             /*  $this->validator->validate($data); */
-            $data->setPicture($data->getPic());
+            $data->setPicture('/images/' . $data->getPic());
             /*  $this->entityManager->flush($data); */
         }
         else

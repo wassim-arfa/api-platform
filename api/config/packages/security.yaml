@@ -44,6 +44,5 @@ security:
     access_control:
         - { path: ^/refresh-token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forgot_password, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/images, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

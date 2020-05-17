@@ -486,7 +486,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:get","user:set:picture"})
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picture;
     /**
@@ -560,6 +560,7 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPicture(): ?string
     public function getAgreement(): ?bool
     {
         return $this->agreement;
@@ -577,7 +578,7 @@ class User implements UserInterface
         return $this->picture;
     }
 
-    public function setPicture(?int $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
