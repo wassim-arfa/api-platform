@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 
 import classenames from "./Login.module.css";
+import { useStoreActions } from "../../hooks/store.hook";
 
 const layout = {
     labelCol: {
@@ -18,9 +19,11 @@ const tailLayout = {
     },
 };
 
+
 const Login = () => {
+    const login = useStoreActions((actions) => actions.user.login);
     const onFinish = (values) => {
-        console.log("Success:", values);
+        login(values);
     };
 
     const onFinishFailed = (errorInfo) => {
