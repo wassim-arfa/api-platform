@@ -15,6 +15,21 @@ const instance = (config: AxiosRequestConfig = {}): AxiosInstance => {
         (error: AxiosError) => error
     );
 
+    axiosInstance.interceptors.request.use(
+        (config: AxiosRequestConfig) => {
+            const { origin } = new URL(`${config.baseURL}/${config.url}`);
+            const allowedOrigins = [ENTRYPOINT];
+            const token = localStorage.getItem("token");
+            if (token && allowedOrigins.includes(origin)) {
+                config.headers.authorization = `Bearer ${token}`;
+            }
+            return config;
+        },
+        (error: AxiosError) => {
+            return Promise.reject(error);
+        }
+    );
+
     return axiosInstance;
 };
 
