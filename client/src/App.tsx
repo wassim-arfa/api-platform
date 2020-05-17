@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import { Route, Switch, Router } from "react-router-dom";
 import { push } from "redux-first-history";
 
