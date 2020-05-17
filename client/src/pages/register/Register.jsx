@@ -2,42 +2,16 @@ import React, { useState } from "react";
 import { Form, Input, Tooltip, Checkbox, Button } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
-const formItemLayout = {
-    labelCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 8,
-        },
-    },
-    wrapperCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 16,
-        },
-    },
-};
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
+import { formItemLayout, tailFormItemLayout } from "./formLayouts";
+import { useStoreActions } from "../../hooks/store.hook";
 
 const Register = () => {
     const [form] = Form.useForm();
 
+    const register = useStoreActions((actions) => actions.user.register);
+
     const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+        register(values);
     };
 
     const [] = useState([]);
@@ -54,6 +28,34 @@ const Register = () => {
             }}
             scrollToFirstError
         >
+            <Form.Item
+                name="fname"
+                label={"First Name"}
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your first name!",
+                        whitespace: true,
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                name="lname"
+                label={"Last Name"}
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your first name!",
+                        whitespace: true,
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
+
             <Form.Item
                 name="email"
                 label="E-mail"
@@ -112,10 +114,10 @@ const Register = () => {
             </Form.Item>
 
             <Form.Item
-                name="nickname"
+                name="username"
                 label={
                     <span>
-                        Nickname&nbsp;
+                        Username &nbsp;
                         <Tooltip title="What do you want others to call you?">
                             <QuestionCircleOutlined />
                         </Tooltip>
@@ -124,7 +126,7 @@ const Register = () => {
                 rules={[
                     {
                         required: true,
-                        message: "Please input your nickname!",
+                        message: "Please input your username!",
                         whitespace: true,
                     },
                 ]}
@@ -153,28 +155,13 @@ const Register = () => {
                     {
                         required: false,
                         message: "Please input your phone number!",
-                        whitespace: true,
                     },
                 ]}
             >
                 <Input />
             </Form.Item>
 
-            <Form.Item
-                name="landline"
-                label={"Landline"}
-                rules={[
-                    {
-                        required: false,
-                        message: "Please input your fixe number!",
-                        whitespace: true,
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
+            {/* <Form.Item
                 name="agreement"
                 valuePropName="checked"
                 rules={[
@@ -190,7 +177,7 @@ const Register = () => {
                 <Checkbox>
                     I have read the <a href="">agreement</a>
                 </Checkbox>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">
                     Register

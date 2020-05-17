@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { StoreProvider } from "easy-peasy";
 import { Route, Switch, Router } from "react-router-dom";
 import { push } from "redux-first-history";
 
@@ -13,7 +13,6 @@ import user from "../routes/user";
 import Welcome from "../../pages/welcome";
 import Dev from "../../pages/dev";
 
-export {};
 declare global {
     interface Window {
         navigate: any;
@@ -24,7 +23,7 @@ window.navigate = (t: any) => store.dispatch(push(t));
 
 function App() {
     return (
-        <Provider store={store}>
+        <StoreProvider store={store}>
             <Router history={history}>
                 <Switch>
                     <Route
@@ -43,7 +42,7 @@ function App() {
                     <Route render={() => <h1>Not Found</h1>} />
                 </Switch>
             </Router>
-        </Provider>
+        </StoreProvider>
     );
 }
 
