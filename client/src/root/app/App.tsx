@@ -5,13 +5,13 @@ import { push } from "redux-first-history";
 
 import "./App.css";
 
-import { history, store } from "./store";
+import { history, store } from "../store";
 // routes
-import Login from "./pages/login";
-import Welcome from "./pages/welcome";
-import Register from "./pages/register";
-import withCenterLayout from "./layouts/centerLayout";
-import withAppLayout from "./layouts/appLyout";
+import withAppLayout from "../../layouts/appLyout";
+import user from "../routes/user";
+
+import Welcome from "../../pages/welcome";
+import Dev from "../../pages/dev";
 
 export {};
 declare global {
@@ -28,24 +28,18 @@ function App() {
             <Router history={history}>
                 <Switch>
                     <Route
-                        path="/login"
-                        component={withCenterLayout(Login)}
+                        path="/dev"
+                        component={withAppLayout(Dev)}
                         exact
-                        key="create"
-                    />
-                    <Route
-                        path="/register"
-                        component={withCenterLayout(Register)}
-                        exact
-                        key="create"
+                        key="dev"
                     />
                     <Route
                         path="/welcome"
                         component={withAppLayout(Welcome)}
                         exact
-                        key="create"
+                        key="welcome"
                     />
-                    ,{/* Add your routes here */}
+                    ,{/* Add your routes here */},{user}
                     <Route render={() => <h1>Not Found</h1>} />
                 </Switch>
             </Router>
