@@ -1,15 +1,15 @@
 export interface User {
     "@id"?: string;
-    readonly address?: string;
-    readonly bio?: string;
-    readonly createdAt?: Date;
-    readonly email: string;
-    readonly fname: string;
-    readonly landline?: string;
-    readonly lname: string;
-    readonly mobile?: string;
-    readonly passwordChangeDate?: number;
-    readonly updatedAt?: Date;
-    readonly username: string;
+    address?: string;
+    bio?: string;
+    createdAt?: Date;
+    email: string;
+    fname: string;
+    landline?: string;
+    lname: string;
+    mobile?: string;
+    passwordChangeDate?: number;
+    updatedAt?: Date;
+    username: string;
     id?: string;
 }

@@ -1,6 +1,6 @@
 import { createStore, EasyPeasyConfig } from "easy-peasy";
 
-import { storeModel, StoreModel } from "./store.model";
+import { storeModel, StoreModel } from "../../models/store.model";
 import { config } from "./storeConfig";
 import { createReduxHistory } from "./reduxHistoryContext";
 
