@@ -1,23 +1,15 @@
 export interface User {
-  '@id'?: string;
-  readonly username: string;
-  readonly roles?: any;
-  readonly password: string;
-  readonly salt?: any;
-  readonly createdAt?: Date;
-  readonly updatedAt?: Date;
-  readonly passwordChangeDate?: number;
-  readonly newPassword?: any;
-  readonly newRetypedPassword?: any;
-  readonly oldPassword?: any;
-  readonly fname: string;
-  readonly lname: string;
-  readonly email: string;
-  readonly address?: string;
-  readonly bio?: string;
-  readonly mobile?: string;
-  readonly landline?: string;
-  readonly enabled?: boolean;
-  readonly confirmationToken?: string;
-  id?: string;
+    "@id"?: string;
+    readonly address?: string;
+    readonly bio?: string;
+    readonly createdAt?: Date;
+    readonly email: string;
+    readonly fname: string;
+    readonly landline?: string;
+    readonly lname: string;
+    readonly mobile?: string;
+    readonly passwordChangeDate?: number;
+    readonly updatedAt?: Date;
+    readonly username: string;
+    id?: string;
 }
