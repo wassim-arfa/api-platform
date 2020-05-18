@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Controller\UploadImageAction;
 use App\Controller\DeleteImageAction;
 
+
 /**
  * @ORM\Entity()
  * @Vich\Uploadable()
@@ -79,6 +80,11 @@ class Image
      */
     private $deletedAt;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $private=false;
+
     public function getId()
     {
         return $this->id;
@@ -129,6 +135,18 @@ class Image
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getPrivate(): ?bool
+    {
+        return $this->private;
+    }
+
+    public function setPrivate(?bool $private): self
+    {
+        $this->private = $private;
 
         return $this;
     }

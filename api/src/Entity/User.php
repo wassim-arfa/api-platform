@@ -11,9 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use App\Controller\ResetPasswordAction;
-use App\Security\TokenGenerator;
 use App\Controller\SetPictureAction;
-
+use App\Controller\GetImagesAction;
 /**
  * @ApiResource(attributes={"validation_groups"={"user:get", "user:post", "user:put"}},
  *     collectionOperations={
@@ -47,6 +46,12 @@ use App\Controller\SetPictureAction;
  *          "path"="/users/{id}/set-picture",
  *          "controller"= SetPictureAction::class,
  *          "denormalization_context"={"groups"={"user:set:picture"}}
+ * },
+ *    "get-images-by-user"={
+ *    "method"="GET",
+ *    "path"="/user/{id}/images",
+ *    "controller"= GetImagesAction::class,
+ *    "denormalization_context"={"groups"={"user:get"}}
  *     }
  * }
  * )
@@ -588,7 +593,7 @@ class User implements UserInterface
 
     /**
      * Get the value of pic
-     */ 
+     */
     public function getPic()
     {
         return $this->pic;
@@ -598,7 +603,7 @@ class User implements UserInterface
      * Set the value of pic
      *
      * @return  self
-     */ 
+     */
     public function setPic($pic)
     {
         $this->pic = $pic;
