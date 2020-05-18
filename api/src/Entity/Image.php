@@ -31,6 +31,7 @@ use App\Controller\DeleteImageAction;
  *     },
  *     itemOperations={
  *           "get"={
+ *           "path"="/image/{id}",
  *           "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *           "normalization_context"={"groups"={"image:get"}}
  * },
