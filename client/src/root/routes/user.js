@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import withCenterLayout from "../../layouts/centerLayout";
+import { withCenterLayout } from "../../components/layouts";
 import Login from "../../pages/login";
 import Register from "../../pages/register";
 

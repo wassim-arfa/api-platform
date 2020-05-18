@@ -1,5 +1,5 @@
 import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
-import { ENTRYPOINT } from "./entrypoint";
+import { ENTRYPOINT } from "./env";
 
 const instance = (config: AxiosRequestConfig = {}): AxiosInstance => {
     const { headers, ...conf } = config;
