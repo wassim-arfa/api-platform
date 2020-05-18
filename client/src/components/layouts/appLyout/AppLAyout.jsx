@@ -11,8 +11,6 @@ import {
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-// import classenames from "./Welcome.module.css";
-
 const withAppLayout = (Component) => {
     return class CenterLayout extends React.Component {
         state = {

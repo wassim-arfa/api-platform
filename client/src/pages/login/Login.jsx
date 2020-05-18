@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 
 import classenames from "./Login.module.css";
-import { useStoreActions } from "../../hooks/store.hook";
+import { useStoreActions } from "../../hooks";
 
 const layout = {
     labelCol: {
@@ -18,7 +18,6 @@ const tailLayout = {
         span: 16,
     },
 };
-
 
 const Login = () => {
     const login = useStoreActions((actions) => actions.user.login);

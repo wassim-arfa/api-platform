@@ -1,4 +1,4 @@
-import { USERS, AUTH, API_RESET_PASSWORD } from "./../constants/api";
+import { USERS, AUTH, API_RESET_PASSWORD } from "../constants/uri";
 import { UserRegister } from "../interfaces/user.register";
 import { User } from "../interfaces/user";
 import { Auth } from "../interfaces/auth";

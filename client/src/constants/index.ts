@@ -1,2 +1,2 @@
-export { USERS } from "./api";
-export { AUTH } from "./api";
+export { USERS } from "./uri";
+export { AUTH } from "./uri";
