@@ -1,4 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
+import { push } from "redux-first-history";
 
 import { InjectionModel } from "./injection.model";
 import { User } from "../interfaces/user";
@@ -29,10 +30,13 @@ export const userModel: UserModel = {
         actions.savedUser(user);
     }),
     savedToken: action((state, payload: Token) => {
-        localStorage.setItem("token", payload.token);
+        if (payload.token) {
+            localStorage.setItem("token", payload.token);
+        }
     }),
-    login: thunk(async (actions, payload: Auth, { injections }) => {
+    login: thunk(async (actions, payload: Auth, { injections, dispatch }) => {
         const token: Token = await injections.user.login(payload);
         actions.savedToken(token);
+        dispatch(push("welcome"));
     }),
 };
