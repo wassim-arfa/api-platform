@@ -48,8 +48,11 @@ class UserRegisterSubscriber implements EventSubscriberInterface
     public function userRegistered(GetResponseForControllerResultEvent $event)
     {
         $user = $event->getControllerResult();
-        $method = $event->getRequest()
-            ->getMethod();
+        $method = $event->getRequest()->getMethod();
+
+        if(!$user->getAgreement()) {
+            throw new \Exception("Need Agree to terms to make account");
+        }
 
         if (!$user instanceof User ||
             !in_array($method, [Request::METHOD_POST])) {

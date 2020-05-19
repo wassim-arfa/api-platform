@@ -12,7 +12,7 @@ use App\Controller\ResetPasswordAction;
 use App\Security\TokenGenerator;
 
 /**
- * @ApiResource(attributes={"validation_groups"={"user:get", "user:post", "user:put"}},
+ * @ApiResource(
  *     collectionOperations={
  *     "post"={"denormalization_context"={"groups"={"user:post"}}},
  *     "get"={"normalization_context"={"groups"={"user:get"}}}
@@ -53,7 +53,7 @@ class User implements UserInterface
     */
     public function updatedTimestamps(): void
     {
-        $this->setUpdatedAt(new \DateTime('now'));    
+        $this->setUpdatedAt(new \DateTime('now'));
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTime('now'));
         }
@@ -215,13 +215,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:reset:password"})
-     * @SecurityAssert\UserPassword( message = "Wrong value for your current password" )
-     */
-    private $oldPassword;
-
-    /**
-     * @Groups({"user:reset:password"})
-     * @Assert\NotBlank(groups={"user:reset:password"})
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
      *     message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case letter"
@@ -231,7 +225,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:reset:password"})
-     * @Assert\NotBlank(groups={"user:reset:password"})
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Expression(
      *     "this.getNewPassword() === this.getNewRetypedPassword()",
      *      message="passwords does not match")
@@ -271,18 +265,6 @@ class User implements UserInterface
     public function setNewRetypedPassword($newRetypedPassword)
     {
         $this->newRetypedPassword = $newRetypedPassword;
-
-        return $this;
-    }
-
-    public function getOldPassword()
-    {
-        return $this->oldPassword;
-    }
-
-    public function setOldPassword($oldPassword)
-    {
-        $this->oldPassword = $oldPassword;
 
         return $this;
     }
@@ -459,6 +441,16 @@ class User implements UserInterface
      */
     private $confirmationToken;
 
+    /**
+     * @Groups({"user:post","user:get"})
+     * @Assert\Type(
+     *     type="bool",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
+     * @ORM\Column(type="boolean")
+     */
+    private $agreement;
+
 
     public function getEnabled(): ?bool
     {
@@ -480,6 +472,18 @@ class User implements UserInterface
     public function setConfirmationToken(?string $confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    public function getAgreement(): ?bool
+    {
+        return $this->agreement;
+    }
+
+    public function setAgreement(bool $agreement): self
+    {
+        $this->agreement = $agreement;
 
         return $this;
     }
