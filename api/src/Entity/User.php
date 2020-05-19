@@ -565,7 +565,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPicture(): ?string
+
     public function getAgreement(): ?bool
     {
         return $this->agreement;
