@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Image;
+use Symfony\Component\Security\Core\Security;
 
 
 class GetImagesAction
@@ -18,31 +19,52 @@ class GetImagesAction
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var Security
+     */
+    private $security;
 
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
-        )
+    /**
+     * GetImagesAction constructor.
+     * @param ValidatorInterface $validator
+     * @param EntityManagerInterface $entityManager
+     * @param Security $security
+     */
+    public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, Security $security)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
+
 
     public function __invoke(User $data)
     {
-        $images = $this->entityManager
-        ->getRepository(Image::class)
-        ->findBy(
-            [
-                "owner"=>$data->getId(),
-                "private"=>false,
-                "deletedAt"=>null
-            ]
-        );
+        if($data === $this->security->getUser())
+        {
+            $images = $this->entityManager
+                ->getRepository(Image::class)
+                ->findBy(
+                    [
+                        "owner"=>$data->getId(),
+                        "deletedAt"=>null
+                    ]
+                );
+        }
+        else
+        {
+            $images = $this->entityManager
+                ->getRepository(Image::class)
+                ->findBy(
+                    [
+                        "owner"=>$data->getId(),
+                        "private"=>false,
+                        "deletedAt"=>null
+                    ]
+                );
+        }
 
         return $images;
-
     }
 
 }
