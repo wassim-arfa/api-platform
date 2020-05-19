@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Controller\UploadImageAction;
 use App\Controller\DeleteImageAction;
+use App\Controller\PrivacyImageAction;
 
 
 /**
@@ -35,6 +36,12 @@ use App\Controller\DeleteImageAction;
  *           "path"="/image/{id}",
  *           "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *           "normalization_context"={"groups"={"image:get"}}
+ * },
+ *          "set-privacy"={
+ *             "method"="PUT",
+ *             "path"="/privacy-image/{id}",
+ *             "controller"=PrivacyImageAction::class,
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getOwner() == user",
  * },
  *           "safe-delete"={
  *             "method"="PUT",
@@ -84,6 +91,31 @@ class Image
      * @ORM\Column(type="boolean", options={"default":false})
      */
     private $private=false;
+
+    /**
+     * @Assert\Type(
+     *     type="bool",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
+     */
+    private $isPrivate;
+
+    /**
+     * @return mixed
+     */
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
+    /**
+     * @param mixed $isPrivate
+     */
+    public function setIsPrivate($isPrivate): void
+    {
+        $this->isPrivate = $isPrivate;
+    }
+
 
     public function getId()
     {
