@@ -9,6 +9,7 @@ use App\Security\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -50,13 +51,13 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if(!$user->getAgreement()) {
-            throw new \Exception("Need Agree to terms to make account");
-        }
-
         if (!$user instanceof User ||
             !in_array($method, [Request::METHOD_POST])) {
             return;
+        }
+
+        if(!$user->getAgreement()) {
+            throw new BadRequestHttpException('Need Agree to terms to make account');
         }
 
         // It is an User, we need to hash password here
