@@ -578,7 +578,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPicture(): ?int
+    public function getPicture(): ?string
     {
         return $this->picture;
     }

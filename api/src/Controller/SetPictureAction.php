@@ -7,9 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Image;
-use App\Repository\ImageRepository;
-
-
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 
 class SetPictureAction
@@ -34,7 +32,7 @@ class SetPictureAction
     }
 
     public function __invoke(User $data)
-    { 
+    {
         $image = $this->entityManager
         ->getRepository(Image::class)
         ->findBy(
@@ -44,7 +42,7 @@ class SetPictureAction
                 "deletedAt"=>null
             ]
         );
-        
+
 
         if(is_integer($data->getPic()) && $image)
         {
@@ -53,8 +51,7 @@ class SetPictureAction
             /*  $this->entityManager->flush($data); */
         }
         else
-        throw new \Exception('You cant set this picture as profile picture');
-
+        throw new BadRequestHttpException('You cant set this picture as profile picture');
 
         return $data;
 
