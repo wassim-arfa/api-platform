@@ -11,6 +11,7 @@
         "lexik/jwt-authentication-bundle": "^2.6",
         "symfony/console": "4.4.*",
         "symfony/dotenv": "4.4.*",
+        "symfony/filesystem": "4.4.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.4.*",
         "symfony/mercure-bundle": "^0.2",
