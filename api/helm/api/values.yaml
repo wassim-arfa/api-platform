@@ -56,7 +56,7 @@ mercure:
   subscribeUrl: https://mercure.example.com/.well-known/mercure
   allowAnonymous: "1"
   corsAllowedOrigins: "^https?://.*?\\.example\\.com$"
-  acmeHosts: "" # TODO: Fix the Mercure chart
+  acmeHosts: ""
   jwtKey: ""
   service:
     type: NodePort
