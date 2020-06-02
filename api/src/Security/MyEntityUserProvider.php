@@ -4,12 +4,44 @@ namespace App\Security;
 
 use App\Entity\User;
 
-use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class MyEntityUserProvider extends EntityUserProvider implements AccountConnectorInterface {
+class MyEntityUserProvider extends EntityUserProvider {
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    /**
+     * @var JWTTokenManagerInterface
+     */
+    private $jwtManager;
+
+    /**
+     * @var RefreshTokenManagerInterface
+     */
+    private  $refreshToken;
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry    manager registry
+     * @param string          $class       user entity class to load
+     * @param array           $properties  Mapping of resource owners to properties
+     * @param string          $managerName Optional name of the entity manager to use
+     */
+    public function __construct(ManagerRegistry $registry, $class, array $properties, $managerName = null ,UserPasswordEncoderInterface $passwordEncoder, JWTTokenManagerInterface $jwtManager, RefreshTokenManagerInterface $refreshToken)
+    {
+        parent::__construct($registry, $class, $properties, $managerName = null);
+        $this->passwordEncoder = $passwordEncoder;
+        $this->jwtManager = $jwtManager;
+        $this->refreshToken = $refreshToken;
+    }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
@@ -33,7 +65,7 @@ class MyEntityUserProvider extends EntityUserProvider implements AccountConnecto
             $usr = new User();
             $usr->setUsername($username);
             $usr->setEmail($email);
-            $usr->setPassword($username);
+            $usr->setPassword($this->passwordEncoder->encodePassword($usr, $username));
             $usr->setFname($response->getFirstName()?$response->getFirstName():"");
             $usr->setLname($response->getLastName()?$response->getLastName():"");
             $usr->setPicture($response->getProfilePicture());
@@ -43,7 +75,9 @@ class MyEntityUserProvider extends EntityUserProvider implements AccountConnecto
             $usr->setEnabled(true);
             $this->em->persist($usr);
             $this->em->flush();
-            return $usr;
+            $token = $this->jwtManager->create($usr);
+            $refresh_token = $this->refreshToken->getLastFromUsername($usr->getUsername())->getRefreshToken();
+            dd(['token'=>$token, 'refresh_token'=>$refresh_token]);
         }
         else
         {
@@ -55,20 +89,9 @@ class MyEntityUserProvider extends EntityUserProvider implements AccountConnecto
             $user->setPicture($response->getProfilePicture());
             $this->em->persist($user);
             $this->em->flush();
-            return $user;
+            $token = $this->jwtManager->create($user);
+            $refresh_token = $this->refreshToken->getLastFromUsername($user->getUsername())->getRefreshToken();
+            dd(['token'=>$token, 'refresh_token'=>$refresh_token]);
         }
-
-
-    }
-
-    /**
-     * Connects the response to the user object.
-     *
-     * @param UserInterface $user The user object
-     * @param UserResponseInterface $response The oauth response
-     */
-    public function connect(UserInterface $user, UserResponseInterface $response)
-    {
-
     }
 }
