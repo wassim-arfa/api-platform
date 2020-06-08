@@ -221,6 +221,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -261,11 +264,11 @@
             "config/bootstrap.php"
         ]
     },
-    "symfony/debug": {
-        "version": "v4.4.2"
-    },
     "symfony/dependency-injection": {
         "version": "v4.4.2"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.1.2"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.2"
@@ -368,9 +371,6 @@
             "config/packages/mercure.yaml"
         ]
     },
-    "symfony/mime": {
-        "version": "v4.4.2"
-    },
     "symfony/options-resolver": {
         "version": "v4.4.2"
     },
@@ -394,6 +394,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
     },
     "symfony/process": {
         "version": "v4.4.2"

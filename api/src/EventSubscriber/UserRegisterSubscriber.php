@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Security\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -46,7 +46,7 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function userRegistered(GetResponseForControllerResultEvent $event)
+    public function userRegistered(ViewEvent $event)
     {
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
